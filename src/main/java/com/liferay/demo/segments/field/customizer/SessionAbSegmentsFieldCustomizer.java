@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.segments.context.extension.ai.data.internal.field.customizer;
+package com.liferay.demo.segments.field.customizer;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ListUtil;

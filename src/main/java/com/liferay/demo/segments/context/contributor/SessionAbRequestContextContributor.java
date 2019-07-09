@@ -12,23 +12,11 @@
  * details.
  */
 
-package com.liferay.segments.context.extension.ai.data.internal.context.contributor;
-
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.liferay.portal.kernel.json.JSON;
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.GetterUtil;
+package com.liferay.demo.segments.context.contributor;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.segments.context.Context;
 import com.liferay.segments.context.contributor.RequestContextContributor;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.UniformInterfaceException;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.core.impl.provider.entity.StringProvider;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -59,22 +47,24 @@ public class SessionAbRequestContextContributor
 		boolean actualStateOfAb = true;
 		
 		String sessionId = httpServletRequest.getSession().getId();
-		System.out.println("The session id = " + sessionId);		
+		_log.debug(String.format("The session id: %s", sessionId));
 		Character lastChar = sessionId.charAt(sessionId.length() -1);
 		int charNumericValue = Character.getNumericValue(lastChar);	
 		//checks if the interger is divisible by 2, if it can be then it is even
 		if (charNumericValue % 2 == 0)
 		{
 			actualStateOfAb = true;
+			_log.debug(String.format("The session A"));
 		}
-			else
-			{
-				actualStateOfAb = false;
-			}
-		
-		System.out.println("The AB session rule is running and the state of ab being even is " + actualStateOfAb);	
+		else
+		{
+			actualStateOfAb = false;
+			_log.debug(String.format("The session B"));
+		}
+
+		//_log.debug(String.format("The AB session rule is running and the state of ab being even is %s",actualStateOfAb));
 		context.put(KEY, actualStateOfAb);
-	    					
-		
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(SessionAbRequestContextContributor.class);
 }
